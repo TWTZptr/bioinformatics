@@ -11,7 +11,7 @@ def naive(string, substr):
         j = compare(i, m, string, substr)
         if (j == m):
             result.append(i)
-        i+=1
+        i += 1
 
     return result
 
@@ -19,12 +19,14 @@ def compare(start, m, string, substr):
     i = 0
     global compares
 
-    compares += 1
-    while (i != m and string[i + start] == substr[i]):
+    while (i != m):
         compares += 1
+        if (string[i + start] != substr[i]):
+            return i
+        
         i += 1
 
     return i
 
-print(naive("abcfababaa", "ab"))
+print(naive("abcfbabcaac", "abc"))
 print(compares)
