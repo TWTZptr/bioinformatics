@@ -8,7 +8,8 @@ def kmp(string, substr):
 
     i = 0
     j = 0
-    b = getUtilityInfo(string)
+    b = getUtilityInfo(substr)
+    print(b)
 
     while i <= n - m + j:
         (i, j) = match(i, j, string, substr)
@@ -17,6 +18,8 @@ def kmp(string, substr):
 
         if (j == 0):
             i += 1
+        elif (j == m): 
+            j = 0
         else:
             i += b[1][j]
             j = b[1][j]
@@ -24,21 +27,27 @@ def kmp(string, substr):
     return res
 
 def getUtilityInfo(string):
+    global compares
+    n = len(string)
+    i = 1
+    j = 0
     b = [0]
     bl = [0, 1]
-    i = 1
-    global compares
 
-    while (i < len(string)):
-        prev = b[i - 1]
+    while (i != n):
         compares += 1
-        if (string[prev] == string[i]):
-            b.append(prev + 1)
+        if (string[i] == string[j]):
+            b.append(j + 1)
+            bl.append(j + 2)
+            j += 1
+            i += 1
         else:
-            b.append(0)
-
-        bl.append(b[i] + 1)
-        i += 1
+            if (j == 0):
+                b.append(0)
+                bl.append(1)
+                i += 1
+            else:
+                j = b[j - 1]
 
     return (b, bl)
 
@@ -55,5 +64,8 @@ def match(i, j, string, substr):
     return (i, j)
     
 
-print(kmp("aaaaa", "a"))
+print(kmp("aabaabaaaabaabaaab", "abaab"))
+# print(kmp("baabaaab", "baab"))
+# print(kmp("abcabd", "abaab"))
+# print(kmp("aaaaa", "a"))
 print(compares)
